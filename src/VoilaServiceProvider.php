@@ -30,10 +30,10 @@ class VoilaServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
+        $this->setupRoutes();
 
         $loader = \Illuminate\Foundation\AliasLoader::getInstance();
-        $loader->alias('LaVoila', \LarVoila\VoilaServiceProvider::class);
+        $loader->alias('Voila', \Voila\VoilaServiceProvider::class);
 
 
         $this->app->register(\Spatie\Permission\PermissionServiceProvider::class);
@@ -42,10 +42,16 @@ class VoilaServiceProvider extends ServiceProvider
 
     private function setupRoutes()
     {
+        Route::group([
+                         'namespace'  => '\DDVue\AdminPanel\app\Http\Controllers',
+                         'middleware' => ['web'],
+                         'prefix'     => config('ddvue.adminpanel.url_prefix')],
+            function () {
+                require __DIR__ . '/routes/auth.php';
+            });
 
         
-
-
+        $middleware = ['web', config('voila.auth.admin_auth_middleware')];
     }
 
 
