@@ -3,6 +3,10 @@
 
 ## installation
 
+### vue
+```
+npm install -g @vue/cli @vue/cli-service
+```
 
 ### extra settings for better coding
 
