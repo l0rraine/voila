@@ -5,5 +5,5 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css' // Ensure
 import 'vuetify/src/stylus/app.styl'
 
 Vue.use(Vuetify, {
-    iconfont: 'fa',
+    iconfont: 'md',
 })
