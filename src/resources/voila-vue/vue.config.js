@@ -10,7 +10,7 @@ glob.sync(PAGES_PATH + "/**/*.js").forEach(filepath => {
     const baseName = path.basename(filepath, ".js");
     const prefix = path.relative(PAGES_PATH, path.dirname(filepath)).replace("/", ".").replace("\\", ".")
     const entry = path.join("src", "pages", prefix, baseName + ".js");
-    const pageName = prefix !== '' ? (prefix + '.' + baseName + '.js') : (baseName + '.js')
+    const pageName = prefix !== '' ? (prefix + '.' + baseName) : (baseName)
 
     let template
 
@@ -32,12 +32,11 @@ glob.sync(PAGES_PATH + "/**/*.js").forEach(filepath => {
         targetFile = path.format(
             {
                 dir: path.relative(PAGES_PATH, path.dirname(filepath)),
-                base: path.basename(filepath).replace('.js','.html')
+                base: path.basename(filepath).replace('.js', '.html')
             }
         )
     }
 
-    console.log(targetFile);
 
     pages[pageName] = {
         entry: entry,
@@ -46,8 +45,10 @@ glob.sync(PAGES_PATH + "/**/*.js").forEach(filepath => {
     };
 });
 
+console.log(pages);
 
 module.exports = {
     outputDir: "../../public",
-    pages: pages
+    pages: pages,
+    lintOnSave: false
 };
