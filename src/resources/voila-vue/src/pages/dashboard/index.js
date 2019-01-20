@@ -2,8 +2,8 @@ import Vue from 'vue'
 
 require('../../bootstrap')
 
-import routes from './routes';
-import store from './store';
+import routes from './utils/routes';
+import store from './utils/store';
 
 
 import App from "./components/App";
