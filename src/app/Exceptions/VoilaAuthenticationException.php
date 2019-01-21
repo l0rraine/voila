@@ -4,7 +4,7 @@ namespace Voila\AdminPanel\app\Exceptions;
 
 use Exception;
 
-class AdminAuthenticationException extends Exception
+class VoilaAuthenticationException extends Exception
 {
     /**
      * All of the guards that were checked.

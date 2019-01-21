@@ -15,7 +15,11 @@ export default {
         data: null,
         widgets: null,
         config: null,
-        layout: null
+        layout: null,
+        user:{
+            name:window.localStorage.getItem('user'||'[]') == null ? '未登录':JSON.parse(window.localStorage.getItem('user'||'[]')).name,
+
+        }
     },
     mutations: {
         [UPDATE](state, { data, layout, widgets, config }) {
@@ -26,6 +30,13 @@ export default {
         },
         [SET_READY](state, ready) {
             state.ready = ready;
+        },
+        login(state,user){
+            state.user=user;
+            window.localStorage.setItem('user',JSON.stringify(user));
+        },
+        logout(state){
+            window.localStorage.removeItem('user');
         }
     },
     actions: {

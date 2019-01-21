@@ -22,7 +22,7 @@ class AdminUser extends Authenticatable
 
     protected $table = 'admin_users';
 
-    protected $with = ['roles', 'department'];
+    protected $with = ['roles'];
     /**
      * The attributes that are mass assignable.
      *

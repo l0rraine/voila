@@ -1,7 +1,7 @@
 import dashboard from './modules/dashboard';
 
-export default {
+export default new Vuex.Store({
     modules: {
         dashboard
     }
-}
+})

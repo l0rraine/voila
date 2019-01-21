@@ -10,9 +10,9 @@ namespace Voila\AdminPanel\app\Http\Middleware;
 
 
 
-use Illuminate\Contracts\Auth\Factory as Auth;
-use Voila\AdminPanel\app\Exceptions\AdminAuthenticationException;
 use Closure;
+use Illuminate\Contracts\Auth\Factory as Auth;
+use Voila\AdminPanel\app\Exceptions\VoilaAuthenticationException;
 
 class Authenticate
 {
@@ -67,9 +67,12 @@ class Authenticate
 
         foreach ($guards as $guard) {
             if ($this->auth->guard($guard)->check()) {
+                if ($checkHandler = config('voila.auth.check_handler')) {
+                    return app($checkHandler)->check(auth()->guard($guard)->user());
+                }                
                 return $this->auth->shouldUse($guard);
             }
         }
-        throw new AdminAuthenticationException('Unauthenticated.', $guards);
+        throw new VoilaAuthenticationException('Unauthenticated.', $guards);
     }
 }

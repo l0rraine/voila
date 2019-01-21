@@ -5,6 +5,7 @@ require('../../bootstrap')
 import routes from './utils/routes';
 import store from './utils/store';
 
+import './styles/common.less'
 
 import App from "./components/App";
 

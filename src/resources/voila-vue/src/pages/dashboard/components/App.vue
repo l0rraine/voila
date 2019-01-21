@@ -29,7 +29,7 @@
                     <v-list-tile
                             :key="i"
                             v-else
-                            @click="">
+                            @click="handleTileAction">
                         <v-list-tile-action>
                             <v-icon>{{ item.icon }}</v-icon>
                         </v-list-tile-action>
@@ -81,6 +81,11 @@
                 {icon: 'keyboard', text: 'Keyboard shortcuts'}
             ]
         }),
+        methods:{
+            handleTileAction(){
+
+            }
+        }
     };
 </script>
 

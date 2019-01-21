@@ -6,6 +6,7 @@ return [
     'menu_model'     => '',
 
     'auth' => [
+        'check_handler'=>'',
         'middleware' => 'admin.auth:ddvue_ldap',//ddvue_ldap,ddvue_db//['admin.auth:admin'],
         'model' => \DDVue\AdminPanel\app\Models\DdvLdapUser::class,
         'controller' => ''
