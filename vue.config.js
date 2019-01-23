@@ -57,5 +57,12 @@ module.exports = {
   chainWebpack: (config) => {
     config.resolve.alias
       .set('@', path.resolve('resources'))
+      .end()
+    config.plugin('copy')
+      .use(require('copy-webpack-plugin'), [[{
+        from: 'resources/static',
+        to: '..',
+        ignore: ['.*']
+      }]])
   }
 }
