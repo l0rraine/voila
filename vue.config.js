@@ -50,7 +50,8 @@ glob.sync(PAGES_PATH + '/**/*.js').forEach(filepath => {
 console.log(pages)
 
 module.exports = {
-  outputDir: '../public',
+  outputDir: '../public/voila',
+  publicPath: 'voila',
   pages: pages,
   lintOnSave: false,
   chainWebpack: (config) => {
