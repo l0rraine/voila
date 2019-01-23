@@ -16,11 +16,11 @@ use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
 
 
-class AdminUser extends Authenticatable
+class Manager extends Authenticatable
 {
     use Notifiable, HasRoles;
 
-    protected $table = 'admin_users';
+    protected $table = 'managers';
 
     protected $with = ['roles'];
     /**
@@ -28,7 +28,7 @@ class AdminUser extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = ['name', 'display_name', 'password',];
+    protected $fillable = ['name', 'display_name', 'password','api_token'];
 
     /**
      * The attributes that should be hidden for arrays.

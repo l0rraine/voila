@@ -1,11 +1,13 @@
 <?php
 
-namespace Voila;
+namespace Voila\AdminPanel;
 
-use Illuminate\Auth\SessionGuard;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Contracts\Debug\ExceptionHandler;
+use Voila\AdminPanel\app\Exceptions\CustomHandler;
+use Voila\AdminPanel\app\Http\Middleware\Authenticate;
+use Voila\AdminPanel\app\Http\Middleware\SetAdminReferer;
 
 class VoilaServiceProvider extends ServiceProvider
 {
@@ -18,30 +20,33 @@ class VoilaServiceProvider extends ServiceProvider
     public function boot()
     {
 
-        app('router')->aliasMiddleware('admin.referer', 'Voila\AdminPanel\app\Http\Middleware\SetAdminReferer');
-        app('router')->aliasMiddleware('admin.auth', 'Voila\AdminPanel\app\Http\Middleware\Authenticate');
+        app('router')->aliasMiddleware('admin.referer', SetAdminReferer::class);
+        app('router')->aliasMiddleware('admin.auth', Authenticate::class);
 
         $this->publishes([
-                             __DIR__ . '/config'          => config_path('/'),
-                             __DIR__ . '/resources/views' => resource_path('views/vendor/voila/adminpanel'),
-                             __DIR__ . '/public'          => public_path('/'),
-                             __DIR__ . '/database'        => base_path('/database'),
+                             __DIR__ . '/config'   => config_path('/'),
+                             __DIR__ . '/database' => base_path('/database'),
 
                          ], 'voila-adminpanel');
 
-        $this->publishes([
-                             __DIR__ . '/resources/assets/src'               => base_path('/voila'),
-                             __DIR__ . '/resources/assets/babel.config.js'   => base_path('/voila'),
-                             __DIR__ . '/resources/assets/package.json'      => base_path('/voila'),
-                             __DIR__ . '/resources/assets/vue.config.js.dev' => base_path('/voila/vue.config.js'),
+        $this->mergeConfigFrom(__DIR__ . '/config/voila.php', 'voila');
 
 
-                         ], 'voila-adminpanel-dev');
+        $this->loadViewsFrom(resource_path('views/vendor/voila/'), 'voila.adminpanel');
 
 
-        $this->loadViewsFrom(resource_path('views/vendor/voila/adminpanel'), 'voila.adminpanel');
-        $this->loadViewsFrom(realpath(__DIR__ . '/resources/views'), 'voila.adminpanel');
+        $this->app->bind(
+            ExceptionHandler::class,
+            CustomHandler::class
+        );
 
+    }
+
+    function mergeConfigKey($source, $target)
+    {
+        $config = \Config::get($source, []);
+
+        \Config::set($target, array_merge($config, \Config::get($target, [])));
 
     }
 
@@ -55,39 +60,38 @@ class VoilaServiceProvider extends ServiceProvider
     {
         $this->setupRoutes();
 
+//        app('router')->aliasMiddleware('voila.referer', SetAdminReferer::class);
+        app('router')->aliasMiddleware('voila.auth', Authenticate::class);
+
+
         $loader = \Illuminate\Foundation\AliasLoader::getInstance();
-        $loader->alias('Voila', \Voila\VoilaServiceProvider::class);
+        $loader->alias('Voila', "Voila\\AdminPanel\\VoilaServiceProvider");
 
 
-        $this->app->register(\Spatie\Permission\PermissionServiceProvider::class);
+//        $this->app->register(\Spatie\Permission\PermissionServiceProvider::class);
     }
 
 
     private function setupRoutes()
     {
         Route::group([
-                         'namespace'  => '\Voila\AdminPanel\app\Http\Controllers',
                          'middleware' => ['web'],
-                         'prefix'     => config('voila.adminpanel.url_prefix')],
+                         'prefix'     => config('voila.url_prefix')],
             function () {
                 require __DIR__ . '/routes/auth.php';
+                Route::get('/', 'Voila\AdminPanel\app\Http\Controllers\AdminPanelController@getIndex')->name('voila.adminpanel.home');
             });
 
 
-        $middleware = ['web', config('voila.auth.admin_auth_middleware')];
+        $middleware = ['web', config('voila.auth.middleware')];
 
         Route::group([
                          'middleware' => $middleware,
-                         'prefix'     => config('voila.adminpanel.url_prefix')],
+                         'prefix'     => config('voila.url_prefix')],
             function () {
                 Route::group(['namespace' => '\Voila\AdminPanel\app\Http\Controllers'], function () {
-                    Route::get('/', 'AdminPanelController@getIndex')->name('voila.adminpanel.home');
-                    Route::get('/welcome', function () {
-                        return view('voila.adminpanel::welcome');
-                    })->name('voila.adminpanel.welcome');
+                    Route::get('/baseconfig', 'AdminPanelController@getBaseConfig')->name('voila.adminpanel.config.base');
 
-                    Route::get('/settingsJson', 'AdminPanelController@getSettingsJson')->name('voila.adminpanel.settings.json');
-                    Route::get('/changepassword', 'AdminPanelController@changePassword')->name('voila.adminpanel.changepassword');
                 });
                 //路由
 //                require __DIR__ . '/routes/routes.php';

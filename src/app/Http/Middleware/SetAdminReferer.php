@@ -19,19 +19,36 @@ class SetAdminReferer
 {
     /**
      * Handle an incoming request.
-     *q
+     *
      * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
-     * @return mixedqla.base
+     * @param  \Closure                 $next
+     *
+     * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $guard = null)
     {
-        if (str_contains(session('url.intended'), '/' . config('voila.url_prefix', 'admin') . '/')) {
-            $request->headers->set('referer', \URL::route('voila.adminpanel.home'));
-            session(['url.intended' => \URL::route('voila.adminpanel.home')]);
+        if ($this->checkUserAuthenticated()){
+            if (str_contains(session('url.intended'), '/' . config('voila.url_prefix', 'admin') . '/')) {
+                $request->headers->set('referer', \URL::route('voila.adminpanel.home'));
+                session(['url.intended' => \URL::route('voila.adminpanel.home')]);
+            }
         }
+           
 
         return $next($request);
 
+    }
+
+    protected function checkUserAuthenticated($guard)
+    {
+        if (auth()->guard($guard)->check()) {
+            if ($checkHandler = config('voila.auth.check_handler')) {
+                return app($checkHandler)->check(auth()->guard($guard)->user());
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }
