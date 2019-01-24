@@ -61,7 +61,7 @@ module.exports = {
     config.plugin('copy')
       .use(require('copy-webpack-plugin'), [[{
         from: 'resources/static',
-        to: '..',
+        to: '.',
         ignore: ['.*']
       }]])
   }

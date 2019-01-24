@@ -10,9 +10,12 @@ namespace Voila\AdminPanel\app\Http\Controller\Auth;
 
 
 use Illuminate\Routing\Controller;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+
 
 class LoginController extends Controller
 {
+    use ValidatesRequests;
     public function login()
     {
         $this->validate(request(), [

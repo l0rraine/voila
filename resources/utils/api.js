@@ -1,11 +1,16 @@
-import axios from 'axios';
-import { API_PATH } from "./consts";
-import { VSnackbar } from 'vuetify'
+import axios from 'axios'
 
-export const api = axios.create({ baseURL:API_PATH });
+export function doLogin ({ login, password }) {
+  return axios.post('/login', {
+    params: {
+      login: login,
+      password: password
+    }
+  }).then(response => response.data).catch(() => {})
+}
 
-export function getDashboard({ dashboardKey, filters }) {
-    return api.get(`dashboard/${dashboardKey}`, {
-        params: { ...filters }
-    }).then(response => response.data);
+export function getDashboard ({ dashboardKey, filters }) {
+  return axios.get(`dashboard/${dashboardKey}`, {
+    params: { ...filters }
+  }).then(response => response.data)
 }
