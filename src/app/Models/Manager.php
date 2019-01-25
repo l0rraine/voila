@@ -23,7 +23,7 @@ class Manager extends Authenticatable implements JWTSubject
 
     protected $table = 'managers';
 
-//    protected $with = ['roles'];
+    protected $with = ['roles'];
     /**
      * The attributes that are mass assignable.
      *
