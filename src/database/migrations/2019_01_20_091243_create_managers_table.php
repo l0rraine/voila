@@ -16,9 +16,9 @@ class CreateManagersTable extends Migration
         Schema::create('managers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
+            $table->string('email')->unique();
             $table->string('password');
             $table->string('display_name');
-            $table->string('api_token', 64)->unique();
             $table->rememberToken();
             $table->timestamps();
         });
