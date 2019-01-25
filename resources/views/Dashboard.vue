@@ -31,6 +31,24 @@
       </span>
       <v-text-field solo-inverted flat label="查找" prepend-icon="search" />
       <v-spacer />
+      <v-menu offset-y>
+        <v-btn
+          slot="activator" color="black" dark flat large
+          icon>
+          <v-icon>more_vert</v-icon>
+        </v-btn>
+        <v-list>
+          <v-list-tile>
+            <v-list-tile-title>当前用户：{{ username }}</v-list-tile-title>
+          </v-list-tile>
+          <v-divider />
+          <v-list-tile>
+            <v-list-tile-title @click="logout">
+              退出
+            </v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
     </v-toolbar>
     <v-content />
   </v-app>
@@ -59,13 +77,22 @@ export default {
       { icon: 'keyboard', text: 'Keyboard shortcuts' }
     ]
   }),
+  computed: {
+    username () {
+      return this.$auth.user().display_name
+    }
+  },
   methods: {
     handleTileAction () {
 
+    },
+    logout () {
+      this.$auth.logout({
+        redirect: { name: 'login' }
+      })
     }
   },
   created () {
-
   }
 }
 </script>

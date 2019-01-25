@@ -7,6 +7,10 @@ import Dashboard from '@/views/Dashboard'
 Vue.use(Router)
 
 export default new Router({
+  hashbang: false,
+  linkActiveClass: 'active',
+  mode: 'history',
+  base: __dirname,
   routes: [
     {
       path: '/login',

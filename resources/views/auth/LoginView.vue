@@ -37,8 +37,8 @@
 </template>
 
 <script>
-import { doLogin } from '@/utils/api'
 import Snackbar from '@/components/snackbar'
+
 export default {
   name: 'LoginView',
   components: {
@@ -46,21 +46,29 @@ export default {
   },
   data: () => ({
     drawer: null,
-    login: '',
-    password: ''
+    login: 'admin',
+    password: 'admin'
   }),
   props: {
     source: String
   },
   methods: {
-    async doLogin (login, password) {
-      const data = await doLogin({
-        login,
-        password
+    doLogin (login, password) {
+      const redirect = this.$auth.redirect()
+      this.$auth.login({
+        data: {
+          login: login,
+          password: password
+        },
+        rememberMe: true,
+        redirect: { name: redirect ? redirect.from.name : 'dashboard' },
+        fetchUser: true
+      }).then((r) => {
+        this.$auth.user(r.data)
       })
-      // console.log(data)
     }
   }
+
 }
 </script>
 

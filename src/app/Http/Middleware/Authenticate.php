@@ -54,10 +54,11 @@ class Authenticate
     /**
      * Determine if the user is logged in to any of the given guards.
      *
-     * @param  array  $guards
+     * @param  array $guards
+     *
      * @return void
      *
-     * @throws \Illuminate\Auth\AuthenticationException
+     * @throws VoilaAuthenticationException
      */
     protected function authenticate(array $guards)
     {

@@ -7,9 +7,9 @@ return [
 
     'auth' => [
         'check_handler'      => '',
-        'middleware'         => 'voila.auth:manager',
+        'middleware'         => 'voila.auth:api',
         'controller'         => \Voila\AdminPanel\app\Http\Controller\Auth\LoginController::class,
-        'login_attribute'    => 'email',
+        'login_attribute'    => 'name',
         'password_attribute' => 'password',
         'display_attribute'  => ['display_name', 'name', 'email']
     ],

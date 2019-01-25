@@ -27,5 +27,7 @@
         "Voila\\AdminPanel\\VoilaServiceProvider"
       ]
     }
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }

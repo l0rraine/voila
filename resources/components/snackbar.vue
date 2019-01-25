@@ -1,5 +1,5 @@
 <template>
-  <v-snackbar v-model="show" bottom right>
+  <v-snackbar v-model="show" bottom right :timeout="0">
     {{ message }}
     <v-btn flat color="pink" @click.native="show = false">
       Close

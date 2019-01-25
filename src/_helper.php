@@ -11,21 +11,32 @@ function voila_version() { return 1; }
 
 function success($msg, $data = null, $header = [], $options = 0)
 {
-    $header['Voila-Message'] = $msg;
+    if($msg) $r['message'] = $msg;
+    $r['data']    = $data;
 
-    return response()->json($data, $header, $options);
+    return response()->json($r, 200, $header, $options);
+}
+
+function successWithToken($msg, $data = null, $header = [], $options = 0){
+    $token = auth()->guard(config('voila.auth.guards.default'))->getToken();
+    $header['Authorization'] = $token;
+    if($msg) $r['message'] = $msg;
+    $r['data']    = $data;
+    return response()->json($r, 200, $header, $options);
 }
 
 function fail($code = null, $msg, $data = null, $header = [], $options = 0)
 {
-    $header['Voila-Message'] = $msg;
+    if($msg) $r['message'] = $msg;
+    $r['data']    = $data;
 
-    return response()->json($data, $code, $header, $options);
+    return response()->json($r, $code, $header, $options);
 }
+
 
 function get_base_config()
 {
     return [
-        'api_base_url' => route('voila.adminpanel.home')
+        'api_base_url' => route('voila.home')
     ];
 }

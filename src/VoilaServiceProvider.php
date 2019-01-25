@@ -74,23 +74,18 @@ class VoilaServiceProvider extends ServiceProvider
 
     private function setupRoutes()
     {
-        Route::group([
-                         'middleware' => ['web'],
-                         'prefix'     => config('voila.url_prefix')],
-            function () {
-                require __DIR__ . '/routes/auth.php';
-                Route::get('/', 'Voila\AdminPanel\app\Http\Controllers\AdminPanelController@getIndex')->name('voila.adminpanel.home');
-            });
+        require __DIR__ . '/routes/auth.php';
 
 
-        $middleware = ['web', config('voila.auth.middleware')];
+        $middleware = ['api', config('voila.auth.middleware')];
 
         Route::group([
                          'middleware' => $middleware,
                          'prefix'     => config('voila.url_prefix')],
             function () {
                 Route::group(['namespace' => '\Voila\AdminPanel\app\Http\Controllers'], function () {
-                    Route::get('/baseconfig', 'AdminPanelController@getBaseConfig')->name('voila.adminpanel.config.base');
+                    Route::get('/', 'AdminPanelController@getIndex')->name('voila.home');
+                    Route::get('/baseconfig', 'AdminPanelController@getBaseConfig')->name('voila.config.base');
 
                 });
                 //路由
