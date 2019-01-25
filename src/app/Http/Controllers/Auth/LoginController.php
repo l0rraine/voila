@@ -67,21 +67,12 @@ class LoginController extends Controller
      */
     public function refresh()
     {
-        try {
-            $token = $this->guard()->getToken();
-
-
-            return successWithToken('刷新令牌成功');
-        } catch (\Exception $exception) {
-            return fail(401, '令牌刷新失败');
-        }
-
-
+        return successWithToken('刷新令牌成功');
     }
 
     public function user()
     {
-        return success('', \Auth::user()->toArray());
+        return successWithToken('', \Auth::user()->toArray());
     }
 
 }
