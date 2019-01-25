@@ -77,7 +77,7 @@ class VoilaServiceProvider extends ServiceProvider
         require __DIR__ . '/routes/auth.php';
 
 
-        $middleware = ['api', config('voila.auth.middleware')];
+        $middleware = ['api'];
 
         Route::group([
                          'middleware' => $middleware,

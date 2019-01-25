@@ -52,3 +52,7 @@ export function getApiUrl () {
     return 'http://localhost:1010/admin'
   }
 }
+
+export function getRouterBase () {
+  return window.config.routeBase
+}

@@ -15,9 +15,11 @@ class ManagerSeeder extends Seeder
         DB::table('managers')
           ->insert([
                        'name'         => 'admin',
+                       'email'        => 'admin@example.com',
                        'display_name' => '管理员',
                        'password'     => bcrypt('admin'),
-                       'api_token'    => str_random(64)
+                       'created_at'   => \Illuminate\Support\Carbon::now(),
+                       'updated_at'   => \Illuminate\Support\Carbon::now()
                    ]);
     }
 }
