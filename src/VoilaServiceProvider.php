@@ -86,6 +86,8 @@ class VoilaServiceProvider extends ServiceProvider
                 Route::group(['namespace' => '\Voila\AdminPanel\app\Http\Controllers'], function () {
                     Route::get('/', 'AdminPanelController@getIndex')->name('voila.home');
                     Route::get('/baseconfig', 'AdminPanelController@getBaseConfig')->name('voila.config.base');
+                    Route::get('/get_menus', 'AdminPanelController@getMenus')->name('voila.config.menu');
+
 
                 });
                 //路由

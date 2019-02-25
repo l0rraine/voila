@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import { API_PATH } from '@/utils/consts'
+import { API_PATH } from '@/libs/consts'
 
 Vue.use(VueAxios, axios)
 

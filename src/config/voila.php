@@ -4,6 +4,7 @@ return [
     'dashboard_name' => '后台标题',
     'url_prefix'     => '/admin/',
     'menu_model'     => '',
+    'model_path'     => 'models',
 
     'auth' => [
         'check_handler'      => '',

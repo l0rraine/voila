@@ -1,5 +1,5 @@
 import filters from './filters'
-import { getDashboard } from '@/utils/api'
+import api from '@/libs/api'
 
 export const SET_READY = 'SET_READY'
 export const UPDATE = 'UPDATE'
@@ -29,7 +29,7 @@ export default {
   },
   actions: {
     async get ({ state, commit, dispatch, getters }, { dashboardKey, filterValues }) {
-      const data = await getDashboard({
+      const data = await api.getDashboard({
         dashboardKey,
         filters: getters['filters/getQueryParams'](filterValues)
       })

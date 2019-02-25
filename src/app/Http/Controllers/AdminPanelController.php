@@ -51,5 +51,59 @@ class AdminPanelController extends Controller
         return success('成功', get_base_config());
     }
 
+    public function getMenus()
+    {
+
+        return success('成功', [
+            [
+                "path"      => "/groupOne",
+                "icon"      => "ios-folder",
+                "name"      => "system_index",
+                "title"     => "groupOne",
+                "component" => "EntityList",
+                "children"  => [
+                    [
+                        "path"       => "pageOne",
+                        "icon"       => "ios-paper-outline",
+                        "name"       => "pageOne",
+                        "title"      => "pageOne",
+                        "component"  => "EntityList",
+                        "permission" => ["del"]
+                    ],
+                    [
+                        "path"       => "pageTwo",
+                        "icon"       => "ios-paper-outline",
+                        "name"       => "pageTwo",
+                        "title"      => "pageTwo",
+                        "component"  => "EntityList",
+                        "permission" => ["add", "del"]
+                    ],
+                    [
+                        "path"      => "pageThere",
+                        "icon"      => "ios-paper-outline",
+                        "name"      => "pageThere",
+                        "title"     => "pageThere",
+                        "component" => "EntityList"
+                    ]
+                ]
+            ],
+            [
+                "path"      => "/groupTwo",
+                "icon"      => "ios-paper",
+                "title"     => "groupTwo",
+                "name"      => "other",
+                "component" => "EntityList",
+                "children"  => [
+                    [
+                        "path"      => "pageFour",
+                        "title"     => "PageFour",
+                        "name"      => "pageFour",
+                        "component" => "EntityList"
+                    ]
+                ]
+            ]
+        ]);
+    }
+
 
 }

@@ -45,6 +45,6 @@ function fail($code = null, $msg, $data = null, $header = [], $options = 0)
 function get_base_config()
 {
     return [
-        'api_base_url' => route('voila.home')
+        'api_base_url' => route('voila.home'),
     ];
 }

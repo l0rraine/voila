@@ -1,35 +1,29 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import VueRouter from 'vue-router'
+import { routers } from './router'
+import util from '@/libs/util'
 
-import LoginView from '@/views/auth/LoginView'
-import Dashboard from '@/views/Dashboard'
+Vue.use(VueRouter)
 
-import { getRouterBase } from '@/utils/util'
+// 路由配置
+const RouterConfig = {
+  // hashbang: false,
+  // linkActiveClass: 'active',
+  // mode: 'history',
+  base: util.getRouterBase(),
+  // mode: 'history',
+  routes: routers
+}
 
-Vue.use(Router)
+export const router = new VueRouter(RouterConfig)
 
-export default new Router({
-  hashbang: false,
-  linkActiveClass: 'active',
-  mode: 'history',
-  base: getRouterBase(),
-  routes: [
-    {
-      path: '/login',
-      name: 'login',
-      component: LoginView,
-      hidden: true,
-      meta: {
-        auth: false
-      }
-    }, {
-      path: '/',
-      name: 'dashboard',
-      component: Dashboard,
-      hidden: true,
-      meta: {
-        auth: true
-      }
-    }
-  ]
+router.beforeEach((to, from, next) => {
+  // Util.title(to.meta.title)
+  // Util.toDefaultPage(routers, to.name, router, next)
+  next()
+})
+
+router.afterEach((to) => {
+  // Util.openNewPage(router.app, to.name, to.params, to.query)
+  window.scrollTo(0, 0)
 })

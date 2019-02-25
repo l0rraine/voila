@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-export function doLogin ({ login, password }) {
+let api = {}
+
+api.doLogin = function ({ login, password }) {
   return axios.post('/login', {
     params: {
       login: login,
@@ -9,8 +11,14 @@ export function doLogin ({ login, password }) {
   }).then(response => response.data).catch(() => {})
 }
 
-export function getDashboard ({ dashboardKey, filters }) {
+api.getDashboard = function ({ dashboardKey, filters }) {
   return axios.get(`dashboard/${dashboardKey}`, {
     params: { ...filters }
   }).then(response => response.data)
 }
+
+api.getMenu = function () {
+  return axios.get('get_menus')
+}
+
+export default api

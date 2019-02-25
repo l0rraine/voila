@@ -7,8 +7,9 @@ import 'vuetify/src/stylus/app.styl'
 
 import '@/styles/common.less'
 
-import router from '@/router'
+import { router } from '@/router/index'
 import store from '@/store'
+import util from '@/libs/util.js'
 
 import App from '@/App'
 
@@ -28,11 +29,15 @@ Vue.use(require('@websanova/vue-auth'), {
   tokenDefaultName: 'user-token',
   auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
   http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
-  router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
+  router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js')
 })
 
 new Vue({
   store,
   router,
-  render: h => h(App)
+  render: h => h(App),
+  mounted () {
+    // 调用方法，动态生成路由
+    util.initRouter(this)
+  }
 }).$mount('#app')
