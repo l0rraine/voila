@@ -8,16 +8,15 @@ export const loginRouter = {
     title: 'Login - 登录',
     auth: false
   },
-  hidden: true,
+
   component: () => import('@/views/auth/LoginView')
 }
 export const page403 = {
   path: '/403',
   meta: {
-    title: '403-权限不足',
-    auth: false
+    title: '403-权限不足'
   },
-  hidden: true,
+
   name: 'error-403',
   component: () => import('@/views/error-page/403')
 }
@@ -25,10 +24,9 @@ export const page403 = {
 export const page500 = {
   path: '/500',
   meta: {
-    title: '500-服务端错误',
-    auth: false
+    title: '500-服务端错误'
   },
-  hidden: true,
+
   name: 'error-500',
   component: () => import('@/views/error-page/500')
 }

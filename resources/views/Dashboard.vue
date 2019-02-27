@@ -82,6 +82,8 @@ export default {
       return this.$auth.user().display_name
     }
   },
+  mounted () {
+  },
   methods: {
     handleTileAction () {
 

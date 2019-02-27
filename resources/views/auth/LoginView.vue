@@ -44,6 +44,9 @@ export default {
   components: {
     Snackbar
   },
+  mounted () {
+    console.log('登录:', this.$auth.ready())
+  },
   data: () => ({
     drawer: null,
     login: 'admin',
@@ -64,7 +67,8 @@ export default {
         redirect: { name: redirect ? redirect.from.name : 'dashboard' },
         fetchUser: true
       }).then((r) => {
-        this.$auth.user(r.data)
+        // this.$auth.user(r.data)
+        // console.log(this.$auth.user())
       })
     }
   }

@@ -11,6 +11,7 @@ function voila_version() { return 1; }
 
 function success($msg, $data = null, $header = [], $options = 0)
 {
+    $r = [];
     if ($msg)
         $r['message'] = $msg;
     if ($data)
@@ -21,8 +22,8 @@ function success($msg, $data = null, $header = [], $options = 0)
 
 function successWithToken($msg, $data = null, $header = [], $options = 0)
 {
-    $token                   = auth()->guard(config('voila.auth.guards.default'))->getToken();
-    $header['Authorization'] = $token;
+    $token                   = auth()->guard(config('voila.auth.guards.default'))->getToken()->get();
+    $header['Authorization'] = $header['Authorization'] ?? $token;
     if ($msg)
         $r['message'] = $msg;
     if ($data)

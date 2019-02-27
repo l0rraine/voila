@@ -14,12 +14,14 @@ axios.interceptors.response.use(function (response) {
   // Do something with response data
   return response
 }, function (err) {
-  let errors
+  let errors = ''
   if (err.response.data.errors) {
     errors = '  #'
     errors += Object.values(err.response.data.errors).join('  #')
   }
   switch (err.response.status) {
+    case 401:
+      break
     case 504:
     case 404:
       Vue.showSnack('服务器被吃了⊙﹏⊙∥')

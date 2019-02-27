@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import api from './api'
+import lazyLoading from './lazyLoading.js'
 
 export const hyphenate = str => str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
 export const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1)
@@ -59,6 +60,11 @@ util.getApiUrl = function () {
   }
 }
 
+util.title = function (title) {
+  title = title || 'Voila admin'
+  window.document.title = title
+}
+
 util.initRouter = function (vm) {
   const constRoutes = []
   const otherRoutes = []
@@ -67,24 +73,23 @@ util.initRouter = function (vm) {
   const otherRouter = [{
     path: '/*',
     name: 'error-404',
+    alias: '*',
     meta: {
-      title: '404-页面不存在',
-      auth: false
+      title: '404-页面不存在'
     },
     component: 'error-page/404'
   }]
   // 模拟异步请求
   api.getMenu().then(res => {
-    var menuData = res.data.data
-    console.log(menuData)
+    const menuData = res.data.data
     util.initRouterNode(constRoutes, menuData)
     util.initRouterNode(otherRoutes, otherRouter)
     // 添加主界面路由
-    vm.$store.commit('updateAppRouter', constRoutes.filter(item => item.children.length > 0))
+    vm.$store.commit('routes/updateAppRouter', constRoutes.filter(item => item.children.length > 0))
     // 添加全局路由
-    vm.$store.commit('updateDefaultRouter', otherRoutes)
+    vm.$store.commit('routes/updateDefaultRouter', otherRoutes)
     // 刷新界面菜单
-    // vm.$store.commit('updateMenulist', constRoutes.filter(item => item.children.length > 0))
+    vm.$store.commit('routes/updateMenulist', constRoutes.filter(item => item.children.length > 0))
 
     // let tagsList = []
     //
@@ -96,6 +101,8 @@ util.initRouter = function (vm) {
     //   }
     // })
     // vm.$store.commit('setTagsList', tagsList)
+
+    console.log(vm.$store.state.routes.routers)
   })
 }
 
@@ -103,9 +110,8 @@ util.initRouter = function (vm) {
 util.initRouterNode = function (routers, data) {
   for (let item of data) {
     let menu = Object.assign({}, item)
-    menu.component = import(`@/views/${menu.component}.vue`)
-    // menu.component = lazyLoading(menu.component);
-
+    // menu.component = import(`@/views/${menu.component}.vue`)
+    menu.component = lazyLoading(menu.component)
     if (item.children && item.children.length > 0) {
       menu.children = []
       util.initRouterNode(menu.children, item.children)
@@ -131,6 +137,34 @@ util.oneOf = function (ele, targetArr) {
 
 util.getRouterBase = function () {
   return window.config.routeBase
+}
+
+/**
+ * 访问路由时
+ *
+ * @param routers
+ * @param name
+ * @param route
+ * @param next
+ */
+util.toDefaultPage = function (routers, name, route, next) {
+  let len = routers.length
+  let i = 0
+  let notHandle = true
+  while (i < len) {
+    if (routers[i].name === name && routers[i].children && routers[i].redirect === undefined) {
+      route.replace({
+        name: routers[i].children[0].name
+      })
+      notHandle = false
+      next()
+      break
+    }
+    i++
+  }
+  if (notHandle) {
+    next()
+  }
 }
 
 export default util

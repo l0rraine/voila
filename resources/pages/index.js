@@ -8,17 +8,17 @@ import 'vuetify/src/stylus/app.styl'
 import '@/styles/common.less'
 
 import { router } from '@/router/index'
-import store from '@/store'
 import util from '@/libs/util.js'
 
 import App from '@/App'
 
 import Bootstrap from '@/bootstrap'
 
+import store from '@/store'
+
 Vue.use(Vuetify, {
   iconfont: 'md'
 })
-// import RouterInterceptor from '@/interceptors/router'
 
 Vue.router = router
 App.router = Vue.router
@@ -34,9 +34,9 @@ Vue.use(require('@websanova/vue-auth'), {
 
 new Vue({
   store,
-  router,
+  router: router,
   render: h => h(App),
-  mounted () {
+  created () {
     // 调用方法，动态生成路由
     util.initRouter(this)
   }

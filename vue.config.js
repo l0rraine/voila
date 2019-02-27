@@ -51,7 +51,10 @@ console.log(pages)
 
 module.exports = {
   outputDir: '../public/voila',
-  publicPath: 'voila',
+  publicPath: '',
+  devServer: {
+    port: 8088
+  },
   pages: pages,
   lintOnSave: false,
   chainWebpack: (config) => {

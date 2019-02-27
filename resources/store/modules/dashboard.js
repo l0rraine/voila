@@ -14,7 +14,8 @@ export default {
     data: null,
     widgets: null,
     config: null,
-    layout: null
+    layout: null,
+    auth: null
   },
   mutations: {
     [UPDATE] (state, { data, layout, widgets, config }) {
@@ -25,6 +26,9 @@ export default {
     },
     [SET_READY] (state, ready) {
       state.ready = ready
+    },
+    auth (state, auth) {
+      state.auth = auth
     }
   },
   actions: {

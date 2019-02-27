@@ -35,7 +35,7 @@ class LoginController extends Controller
             return fail(401, '无效的用户名或密码');
         }
 
-        return successWithToken('登陆成功');
+        return $this->respondWithToken($token);
     }
 
     protected function getLoginAttribute()
@@ -60,6 +60,7 @@ class LoginController extends Controller
         return auth()->guard(config('voila.auth.guards.default'));
     }
 
+
     /**
      * Refresh a token.
      *
@@ -67,12 +68,46 @@ class LoginController extends Controller
      */
     public function refresh()
     {
-        return successWithToken('刷新令牌成功');
+//        try {
+//            $token = $this->guard()->getToken()->get();
+//
+//
+//            return success('刷新令牌成功', $token, ['Authorization' => $token]);
+//        } catch (\Exception $exception) {
+//            return fail(403, '令牌刷新失败');
+//        }
+        return response([
+                            'status' => 'success'
+                        ]);
+
     }
+
+    /**
+     * Get the token array structure.
+     *
+     * @param  string $token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondWithToken($token)
+    {
+        $header['Authorization'] = $token;
+
+        return response()->json([
+                                    'access_token' => $token,
+                                    'token_type'   => 'bearer',
+                                    'expires_in'   => auth()->factory()->getTTL() * 60
+                                ], 200, $header);
+    }
+
 
     public function user()
     {
-        return successWithToken('', \Auth::user()->toArray());
+        return response([
+                            'status' => 'success',
+                            'data' => \Auth::user()->toArray()
+                        ]);
+
     }
 
 }

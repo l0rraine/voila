@@ -6,10 +6,14 @@ Route::group([
     function () {
         Route::post('/login', config('voila.auth.controller') . '@login');
         Route::group(['middleware' => 'jwt.auth'], function(){
-            Route::get('/user', config('voila.auth.controller') . '@user');
+            Route::get('user', config('voila.auth.controller') . '@user');
+
+            Route::get('logout', config('voila.auth.controller') . '@logout');
+
         });
+//        Route::get('refresh', config('voila.auth.controller') . '@refresh');
         Route::group(['middleware' => 'jwt.refresh'], function(){
-            Route::get('/refresh', config('voila.auth.controller') . '@refresh');
+            Route::get('refresh', config('voila.auth.controller') . '@refresh');
         });
 
     });
